@@ -7,28 +7,40 @@
 
    public class MainMenu extends JPanel implements ActionListener, Constants {
       public MainMenu() {
-     
+      
          initComponents();
       
          setVisible(true);
-      
-         Serendipity.sans.loop();
       
       }
    
        
       public void actionPerformed(ActionEvent e) {
       
-         Serendipity.clickSound.play();
+         Serendipity.getSound("clickSound").play();
       
+		//STUCK HERE
+		
          if(e.getSource() == playButton) {
-					
-				Serendipity.fade_all_music();
+			
+			//Serendipity.setGameState(1);
+			
+			
+            Serendipity.switchPanels(LOADING_KEY);
+				SwingUtilities.invokeLater( new Runnable() {
+            @Override
+            	public void run() {
+						Serendipity.load_game();
+            	}
+         	});
 				
-				Serendipity.switchPanels(LOADING_KEY);
-         
-         }
-         if(e.getSource() == optionsButton);
+			}
+		//^^^^^^^^^^^
+			
+         if(e.getSource() == optionsButton) {
+				Serendipity.switchPanels(OPTIONS_KEY);
+			}
+			
          if(e.getSource() == exitButton) System.exit(0);
       
       }  
@@ -36,6 +48,12 @@
    
    
       private void initComponents() {
+      
+      	//setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+      	
+         setSize(800,600);
+         setFocusable(true);
+      	
       // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
       // Generated using JFormDesigner Evaluation license - Charles Houghton
          playButton = new JButton();
@@ -46,8 +64,9 @@
       
       
       //======== this ========
-         Container contentPane = getContentPane();
-         contentPane.setLayout(null);
+         //Container contentPane = getContentPane();
+         //contentPane.
+         setLayout(null);
       
       //---- playButton ----
          playButton.setText("Play");
@@ -55,7 +74,8 @@
          playButton.setBackground(Color.lightGray);
          playButton.setFont(new Font("Trajan Pro", Font.PLAIN, 28));
          playButton.addActionListener(this);
-         contentPane.add(playButton);
+         //contentPane.
+         add(playButton);
          playButton.setBounds(40, 455, 225, 75);
       
       //---- optionsButton ----
@@ -63,7 +83,8 @@
          optionsButton.setBackground(Color.lightGray);
          optionsButton.setFont(new Font("Trajan Pro", Font.PLAIN, 28));
          optionsButton.addActionListener(this);
-         contentPane.add(optionsButton);
+         //contentPane.
+         add(optionsButton);
          optionsButton.setBounds(285, 455, 225, 75);
       
       //---- exitButton ----
@@ -71,7 +92,8 @@
          exitButton.setBackground(Color.lightGray);
          exitButton.setFont(new Font("Trajan Pro", Font.PLAIN, 28));
          exitButton.addActionListener(this);
-         contentPane.add(exitButton);
+         //contentPane.
+         add(exitButton);
          exitButton.setBounds(530, 455, 225, 75);
       
       //---- title ----
@@ -81,17 +103,21 @@
       //title.setFont(new Font("Segoe Print", Font.BOLD, 48));
       //title.setForeground(Color.red);
          title.setIcon(new ImageIcon(PICTURES_PATH+"title_trans.png"));
-         contentPane.add(title);
+         //contentPane.
+         add(title);
          title.setBounds(-115, -10, 1095, 515);
       
       //---- background ----
       //background.setText("SERENDIPITY");
       //background.setFont(new Font("Sitka Text", Font.PLAIN, 12));
          background.setIcon(new ImageIcon(PICTURES_PATH+"samplebackground.png"));
-         contentPane.add(background);
+         //contentPane.
+         add(background);
          background.setBounds(0, 0, 800, background.getPreferredSize().height);
       
-         { // compute preferred size
+         /*{ // compute preferred size
+      	
+      	
             Dimension preferredSize = new Dimension();
             for(int i = 0; i < contentPane.getComponentCount(); i++) {
                Rectangle bounds = contentPane.getComponent(i).getBounds();
@@ -105,6 +131,7 @@
             contentPane.setPreferredSize(preferredSize);
          }
          pack();
+      	*/
       
       // JFormDesigner - End of component initialization  //GEN-END:initComponents
       }

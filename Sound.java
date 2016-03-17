@@ -8,17 +8,21 @@
    import javax.sound.sampled.UnsupportedAudioFileException;
    import javax.sound.sampled.FloatControl;
 	
-   public class Sound { private Clip clip;
+   public class Sound { 
+	
+		private Clip clip;
    
       private boolean sound_effect;
       private double volume;
+		private String name;
    
-      public Sound(String fileName, boolean se) {
+      public Sound(String n, String filePath, boolean se) {
       
          sound_effect = se;
-         volume = 0;
+         volume = 3;
+			name = n;
       
-         try { File file = new File(fileName);
+         try { File file = new File(filePath);
          
             if (file.exists()) { AudioInputStream sound = AudioSystem.getAudioInputStream(file); 
                clip = AudioSystem.getClip(); 
@@ -26,7 +30,7 @@
             } 
             
             else { 
-               throw new RuntimeException("Sound: file not found: " + fileName); } } 
+               throw new RuntimeException("Sound: file not found: " + filePath); } } 
             catch (MalformedURLException e) { e.printStackTrace(); 
                throw new RuntimeException("Sound: Malformed URL: " + e); } 
             catch (UnsupportedAudioFileException e) { e.printStackTrace(); 
@@ -41,12 +45,10 @@
    	
       public void play() { 
          clip.setFramePosition(0);
-         setVolume(0);
          clip.start(); 
       } 
    	
-      public void loop() { 
-         setVolume(0);
+      public void loop() {
          clip.loop(Clip.LOOP_CONTINUOUSLY);
       } 
    	
@@ -64,6 +66,8 @@
       }
    	
       public void fade () {
+		
+		double vol_save = volume;
       
          while(volume > -50) {
 			
@@ -73,14 +77,23 @@
                Thread.sleep(40);
             } 
                catch(InterruptedException ex) {
-                  Thread.currentThread().interrupt();
+                  //Thread.currentThread().interrupt();
                }
          }
          stop();
+			volume = vol_save;
+			setVolume(volume);
       }
    	
       public boolean isEffect() {
          return sound_effect;
       }
-   	
+		
+		public String getName() {
+			return name;
+		}
+  		public String toString () {
+			return name;
+		} 	
+		
    }
